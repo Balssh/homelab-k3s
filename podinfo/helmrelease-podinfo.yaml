@@ -16,6 +16,7 @@ spec:
   timeout: 5m
   releaseName: podinfo
   valuesFrom:
-  - kind: ConfigMap
-    name: podinfo-helm-chart-value-overrides
-    valuesKey: values.yaml # This is the default, but best to be explicit for clarity
+    - kind: ConfigMap
+      name: podinfo-helm-chart-value-overrides
+      valuesKey: values.yaml # This is the default, but best to be explicit for clarity
+
