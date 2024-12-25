@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 0.13.7
+      version: 0.14.x
       sourceRef:
         kind: HelmRepository
         name: metallb
@@ -16,6 +16,6 @@ spec:
   timeout: 5m
   releaseName: metallb
   valuesFrom:
-  - kind: ConfigMap
-    name: metallb-helm-chart-value-overrides
-    valuesKey: values.yaml # This is the default, but best to be explicit for clarity
+    - kind: ConfigMap
+      name: metallb-helm-chart-value-overrides
+      valuesKey: values.yaml # This is the default, but best to be explicit for clarity
