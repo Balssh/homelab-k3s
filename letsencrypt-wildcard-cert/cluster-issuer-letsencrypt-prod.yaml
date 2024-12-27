@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: george.bals25@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - selector:
+          dnsZones:
+            - "balssh.com"
+        dns01:
+          cloudflare:
+            email: george.bals25@gmail.com
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
