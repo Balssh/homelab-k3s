@@ -13,6 +13,16 @@ spec:
       middlewares:
         - name: redirect-https
           namespace: traefik
+        - name: forward-auth
+          namespace: authentik
+      priority: 10
       services:
         - name: podinfo
           port: 9898
+    - kind: Rule
+      match: "Host(`podinfo.balssh.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      priority: 15
+      services:
+        - kind: Service
+          name: ak-outpost-authentik-embedded-outpost
+          port: 9000
