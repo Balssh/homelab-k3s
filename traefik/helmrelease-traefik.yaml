@@ -214,6 +214,8 @@ spec:
         # -- Additional ingressRoute middlewares (e.g. for authentication)
         middlewares:
           - name: redirect-https
+          - name: forward-auth
+            namespace: authentik
         # -- TLS options (e.g. secret containing certificate)
         tls: {}
       healthcheck:

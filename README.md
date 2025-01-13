@@ -51,6 +51,8 @@ also ping an external service from the client (like google.com)
 ## To do
 
 - [ ] SSO
+- [ ] DNS
+- [ ] budgeting app
 - [ ] media server
 - [ ] recipe manager
 - [ ] paperless
@@ -63,12 +65,6 @@ also ping an external service from the client (like google.com)
 Got Authentik to work after many struggles (and a detour to Authelia). Key steps:
 
 - setup secret-key for users and password for postgres
-
-> [!NOTE]
-> Will refactor so that proper secrets are used and not plain text ones
-
 - make the redis/postgres PVCs smaller (default is 8Gi)
-- can use the embedded outpost, but make sure it's visible in the cluster
-- if using Traefik make sure the forward-auth address in the Middleware is
-something like `address: http://ak-outpost-authentik-embedded-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/traefik
-`
+- the embedded outpost automatically creates a Traefik Middleware,
+but I prefer declaring my own
