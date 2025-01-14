@@ -68,3 +68,4 @@ Got Authentik to work after many struggles (and a detour to Authelia). Key steps
 - make the redis/postgres PVCs smaller (default is 8Gi)
 - the embedded outpost automatically creates a Traefik Middleware,
 but I prefer declaring my own
+- for OIDC make sure the group name matches the one in the RBAC

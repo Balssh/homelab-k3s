@@ -25,4 +25,5 @@ spec:
       services:
         - kind: Service
           name: ak-outpost-authentik-embedded-outpost
+          namespace: authentik
           port: 9000
