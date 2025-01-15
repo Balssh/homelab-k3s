@@ -1063,14 +1063,14 @@ spec:
     redis:
       # -- enable the Bitnami Redis chart. Refer to https://github.com/bitnami/charts/blob/main/bitnami/redis/ for possible values.
       enabled: true
-      persistence:
-        enabled: true
-        size: 100Mi
       architecture: standalone
       auth:
         enabled: false
       master:
         resourcesPreset: "none"
+        persistence:
+          enabled: true
+          size: 100Mi
       replica:
         resourcesPreset: "none"
       sentinel:
