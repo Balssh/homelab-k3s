@@ -18,11 +18,3 @@ spec:
       services:
         - name: adguard
           port: 80
-    - kind: Rule
-      match: "Host(`adguard.balssh.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      priority: 15
-      services:
-        - kind: Service
-          name: ak-outpost-authentik-embedded-outpost
-          namespace: authentik
-          port: 9000

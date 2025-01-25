@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: glanceconfig
   namespace: glance
-data:
+data: # <- Add this key!
   glance.yml: |
     pages:
       - name: Home
@@ -70,46 +70,3 @@ data:
                     name: AMD
                   - symbol: RDDT
                     name: Reddit
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: glance-deployment
-  namespace: glance
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: glance
-  template:
-    metadata:
-      labels:
-        app: glance
-    spec:
-      containers:
-        - name: glance
-          image: glanceapp/glance
-          ports:
-            - containerPort: 8080
-          volumeMounts:
-            - name: config-volume
-              mountPath: /app/glance.yml
-              subPath: glance.yml
-      volumes:
-        - name: config-volume
-          configMap:
-            name: glanceconfig
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: glance-service
-  namespace: glance
-spec:
-  type: ClusterIP
-  selector:
-    app: glance
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080

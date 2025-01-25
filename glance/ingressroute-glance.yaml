@@ -14,5 +14,5 @@ spec:
         - name: redirect-https
           namespace: traefik
       services:
-        - name: glance-service
+        - name: glance
           port: 8080

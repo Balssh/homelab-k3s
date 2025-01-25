@@ -13,16 +13,37 @@ Install ufw and configure it like:
 Install Wireguard and create the config like:
 
 ```config
-[Interface]
+``` [Interface]
+Address = 10.10.0.1
 PrivateKey = <key>
-Address = <server ip>
-ListenPort = <port>
-PostUp = ufw allow in on wg0; ufw route allow in on wg0 out on ens3; ufw route allow in on ens3 out on wg0; iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE; iptables -t nat -A PREROUTING -i ens3 -p tcp -j DNAT --to-destination <client ip>
-PostDown = ufw delete allow in on wg0; ufw route delete allow in on wg0 out on ens3; ufw route delete allow in on ens3 out on wg0; iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE; iptables -t nat -D PREROUTING -i ens3 -p tcp -j DNAT --to-destination <client ip>
+ListenPort = 51820
+
+# packet forwarding
+
+PreUp = sysctl -w net.ipv4.ip_forward=1
+
+# port forwarding (assuming ens3 is your public interface)
+
+PreUp = iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 80 -j DNAT --to-destination 10.10.0.2:80
+PreUp = iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 443 -j DNAT --to-destination 10.10.0.2:443
+PreUp = iptables -A FORWARD -i ens3 -o wg0 -p tcp --dport 80 -j ACCEPT
+PreUp = iptables -A FORWARD -i ens3 -o wg0 -p tcp --dport 443 -j ACCEPT
+
+# packet masquerading
+
+PreUp = iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+PreUp = iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
+
+PostDown = iptables -t nat -D PREROUTING -i ens3 -p tcp --dport 80 -j DNAT --to-destination 10.10.0.2:80
+PostDown = iptables -t nat -D PREROUTING -i ens3 -p tcp --dport 443 -j DNAT --to-destination 10.10.0.2:443
+PostDown = iptables -D FORWARD -i ens3 -o wg0 -p tcp --dport 80 -j ACCEPT
+PostDown = iptables -D FORWARD -i ens3 -o wg0 -p tcp --dport 443 -j ACCEPT
+PostDown = iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
 
 [Peer]
 PublicKey = <key>
-AllowedIPs = <client ip>
+AllowedIPs = 10.10.0.2
 ```
 
 > [!WARNING]
@@ -50,8 +71,9 @@ also ping an external service from the client (like google.com)
 
 ## To do
 
-- [ ] SSO
-- [ ] DNS
+- Ansible playbooks to automatize things
+- [x] SSO
+- [x] DNS
 - [ ] budgeting app
 - [ ] media server
 - [ ] recipe manager
