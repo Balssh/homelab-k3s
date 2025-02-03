@@ -10,9 +10,9 @@ spec:
   routes:
     - match: Host(`glance.balssh.com`)
       kind: Rule
-      middlewares:
-        - name: redirect-https
-          namespace: traefik
+      # middlewares:
+      #   - name: redirect-https
+      #     namespace: traefik
       services:
         - name: glance
           port: 8080

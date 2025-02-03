@@ -14,7 +14,7 @@ spec:
         - name: redirect-https
           namespace: traefik
         - name: forward-auth
-          namespace: authentik
+          namespace: traefik
       services:
         - name: adguard
           port: 80
