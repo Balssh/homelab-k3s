@@ -6,24 +6,13 @@ metadata:
 spec:
   entryPoints:
     - web
-    - websecure
   routes:
     - match: Host(`podinfo.balssh.com`)
       kind: Rule
       middlewares:
         - name: redirect-https
           namespace: traefik
-        - name: forward-auth
-          namespace: traefik
       priority: 10
       services:
         - name: podinfo
           port: 9898
-    - kind: Rule
-      match: "Host(`podinfo.balssh.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      priority: 15
-      services:
-        - kind: Service
-          name: ak-outpost-authentik-embedded-outpost
-          namespace: authentik
-          port: 9000

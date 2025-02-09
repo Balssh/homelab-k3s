@@ -780,7 +780,7 @@ spec:
       ## -- Single service is using `MixedProtocolLBService` feature gate.
       ## -- When set to false, it will create two Service, one for TCP and one for UDP.
       single: true
-      type: DaemonSet
+      type: LoadBalancer
       # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
       annotations: {}
         # metallb.universe.tf/loadBalancerIPs: 192.168.0.76
