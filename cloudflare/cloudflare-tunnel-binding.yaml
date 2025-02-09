@@ -1,0 +1,10 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: traefik-tunnel
+  namespace: traefik
+subjects:
+  - name: traefik
+tunnelRef:
+  kind: ClusterTunnel
+  name: k3s-cluster-tunnel

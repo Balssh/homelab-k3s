@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: ClusterTunnel
+metadata:
+  name: k3s-cluster-tunnel
+spec:
+  newTunnel:
+    name: homelab-tunnel
+  size: 2
+  cloudflare:
+    email: george.bals25@gmail.com
+    domain: balssh.com
+    secret: cloudflare-secrets
+    accountId: 399fbe612f32f10add8762d34da0f577
