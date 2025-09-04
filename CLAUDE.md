@@ -16,13 +16,17 @@ This is a GitOps-managed Kubernetes homelab setup using Flux CD for continuous d
 - **Sealed Secrets**: Secure way to store secrets in Git using encryption
 
 ### Directory Structure
-- `bootstrap/`: Core Flux system configuration and initial cluster setup
+- `clusters/production/`: Production cluster configuration
   - `flux-system/`: Flux CD system components and Git repository sync config
-  - `kustomizations/`: Flux Kustomization resources that define what gets deployed
-  - `helmrepositories/`: Helm repository definitions for charts
-  - `namespaces/`: Namespace definitions for organizing applications
-- `<service>/`: Individual application directories (e.g., `traefik/`, `adguard/`, `glance/`)
-  - Each contains HelmRelease manifests and related configuration
+  - `infrastructure/`: Core cluster infrastructure
+    - `helmrepositories/`: Helm repository definitions for charts
+    - `namespaces/`: Namespace definitions for organizing applications
+  - `apps/`: References application definitions in apps/base/
+- `apps/base/`: Base application configurations organized by category
+  - `infrastructure/`: Core k8s infrastructure (traefik, metallb, cert-manager, sealed-secrets, reflector)
+  - `media/`: Media-related services (adguard)
+  - `productivity/`: Productivity applications (actualbudget, glance)
+  - `monitoring/`: Monitoring and testing applications (podinfo)
 
 ### Applications Currently Deployed
 - **Traefik**: Reverse proxy with dashboard at `traefik.balssh.com`
@@ -47,16 +51,17 @@ flux get helmreleases                 # Check Helm release status
 
 ### Configuration Patterns
 - **HelmReleases**: Applications are deployed using Flux HelmRelease CRDs
-- **Kustomizations**: Flux watches directories and applies resources via Kustomization CRDs
+- **Kustomizations**: Flux uses hierarchical kustomization.yaml files for resource management
 - **IngressRoutes**: Traefik uses IngressRoute CRDs for routing configuration
 - **Values**: Helm chart values are embedded directly in HelmRelease specs
 
 ### Adding New Applications
-1. Create a new directory for the application (e.g., `newapp/`)
-2. Create a HelmRelease manifest: `helmrelease-newapp.yaml`
-3. Add namespace definition in `bootstrap/namespaces/`
-4. Create Kustomization in `bootstrap/kustomizations/`
-5. Add Helm repository if needed in `bootstrap/helmrepositories/`
+1. Choose appropriate category in `apps/base/` (infrastructure, media, productivity, monitoring)
+2. Create application directory: `apps/base/<category>/<appname>/`
+3. Create HelmRelease manifest: `helmrelease-<appname>.yaml`
+4. Add namespace definition in `clusters/production/infrastructure/namespaces/`
+5. Update category kustomization.yaml to include new app directory
+6. Add Helm repository if needed in `clusters/production/infrastructure/helmrepositories/`
 
 ### Network and Ingress
 - External traffic enters through Traefik LoadBalancer (MetalLB provides the external IP)
@@ -77,7 +82,7 @@ flux get helmreleases                 # Check Helm release status
 ## Infrastructure Notes
 
 ### Network Setup
-The setup includes Wireguard VPN configuration for secure remote access to the homelab, with proper firewall rules and port forwarding from an Oracle VPS to the local cluster.
+The setup previously used Wireguard VPN for secure remote access to the homelab. Currently transitioning to Cloudflare Tunnel for external connectivity without requiring VPN infrastructure.
 
 ### Storage
 Applications requiring persistence use PVCs, with configurations typically specifying smaller storage sizes (reduced from defaults for resource efficiency).
