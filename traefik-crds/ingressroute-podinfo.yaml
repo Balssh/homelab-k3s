@@ -1,0 +1,18 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-podinfo
+  namespace: podinfo
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`podinfo.balssh.com`)
+      kind: Rule
+      middlewares:
+        - name: redirect-https
+          namespace: traefik
+      priority: 10
+      services:
+        - name: podinfo
+          port: 9898
