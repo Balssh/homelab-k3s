@@ -1,6 +1,5 @@
-# clusters/my-homelab/main.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
-  - ../../infrastructure
-  - ../../apps
+  - ../../../apps/base/

@@ -1,7 +1,0 @@
-# apps/default/adguard/kustomization.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: default
-resources:
-  - helm-release.yaml
-  # - secrets.sops.yaml # You would add your encrypted secret file here
