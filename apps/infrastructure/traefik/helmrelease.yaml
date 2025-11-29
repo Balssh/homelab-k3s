@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik
+      version: "37.4.0" # pick a specific version later if you want
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+  values:
+    service:
+      type: LoadBalancer
+    ports:
+      web:
+        redirectTo:
+          port: websecure
+    ingressRoute:
+      dashboard:
+        enabled: true
