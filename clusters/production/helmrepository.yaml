@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://bjw-s.github.io/helm-charts/
+  url: https://bjw-s-labs.github.io/helm-charts
 
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/ocirepository-source-v1beta2.json
