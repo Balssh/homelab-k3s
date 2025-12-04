@@ -21,7 +21,7 @@ spec:
           main:
             image:
               repository: adguard/adguardhome
-              tag: v0.107.x
+              tag: v0.107.70
               pullPolicy: Always
 
             env:
