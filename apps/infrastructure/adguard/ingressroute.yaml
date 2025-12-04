@@ -8,7 +8,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`adguard.domain.local`)
+    - match: Host(`adguard-initial.domain.local`)
       kind: Rule
       # middlewares:
       #   - name: redirect-https
@@ -18,3 +18,13 @@ spec:
       services:
         - name: adguard
           port: 3000
+    - match: Host(`adguard.domain.local`)
+      kind: Rule
+      # middlewares:
+      #   - name: redirect-https
+      #     namespace: traefik
+      #   - name: forward-auth
+      #     namespace: traefik
+      services:
+        - name: adguard
+          port: 88
