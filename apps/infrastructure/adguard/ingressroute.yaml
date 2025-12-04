@@ -1,0 +1,20 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard
+  namespace: adguard
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`adguard.domain.local`)
+      kind: Rule
+      # middlewares:
+      #   - name: redirect-https
+      #     namespace: traefik
+      #   - name: forward-auth
+      #     namespace: traefik
+      services:
+        - name: adguard
+          port: 80
