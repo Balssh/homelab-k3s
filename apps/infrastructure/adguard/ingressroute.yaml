@@ -16,7 +16,7 @@ spec:
       #   - name: forward-auth
       #     namespace: traefik
       services:
-        - name: adguard
+        - name: adguard-main
           port: 3000
     - match: Host(`adguard.domain.local`)
       kind: Rule
@@ -26,5 +26,5 @@ spec:
       #   - name: forward-auth
       #     namespace: traefik
       services:
-        - name: adguard
+        - name: adguard-main
           port: 88
