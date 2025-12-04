@@ -36,7 +36,7 @@ spec:
           http-initial:
             port: 3000
           http:
-            port: 88
+            port: 80
         primary: true
         controller: main
       dns:

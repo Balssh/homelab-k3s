@@ -27,4 +27,4 @@ spec:
       #     namespace: traefik
       services:
         - name: adguard-main
-          port: 88
+          port: 80
